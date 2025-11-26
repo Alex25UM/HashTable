@@ -23,7 +23,7 @@ class DataItem:
 def hashFunction1(stringData):
     index = 0
     for letter in stringData:
-        index = index + ord(letter)
+        index = index * 7 + ord(letter)
 
     return index
 
@@ -63,6 +63,7 @@ with open(file, 'r', newline='',  encoding="utf8") as csvfile:
                 quoteIndx = (quoteIndx + 1) % size
 
             hashQuoteTable[quoteIndx] = movie
+
         counter += 1
         if counter == size:
             break
@@ -73,6 +74,7 @@ endTime2 = time.time()
 title_wasted = hashTitleTable.count(None)
 quote_wasted = hashQuoteTable.count(None)
 
+print("Method used: hashfunction1")
 print("Rows inserted:", counter)
 print("Title Hash Table colissions:", titleColissions)
 print("Quote Hash Table colissions:", quoteColissions)
