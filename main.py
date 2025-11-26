@@ -24,9 +24,19 @@ def hashFunction1(stringData):
     index = 0
     for letter in stringData:
         index = index * 7 + ord(letter)
-
     return index
 
+def hashFunction2(stringData):
+    index = 0
+    counter = 0
+    for letter in stringData:
+        counter += 1
+        if counter % 2 == 0:
+            index = index + ord(letter)
+        else:
+            index = index * ord(letter)
+
+    return index
 size = 10000
 hashTitleTable = [None] * size
 hashQuoteTable = [None] * size
@@ -46,7 +56,7 @@ with open(file, 'r', newline='',  encoding="utf8") as csvfile:
         if counter != 0:
             movie = DataItem(row)
 
-            titleKey = hashFunction1(movie.movie_name)
+            titleKey = hashFunction2(movie.movie_name)
             titleIndx = titleKey % size #just keeps the index within the bounds of the table
 
             while hashTitleTable[titleIndx] is not None:
@@ -55,7 +65,7 @@ with open(file, 'r', newline='',  encoding="utf8") as csvfile:
 
             hashTitleTable[titleIndx] = movie
 
-            quoteKey = hashFunction1(movie.quote)
+            quoteKey = hashFunction2(movie.quote)
             quoteIndx = quoteKey % size
 
             while hashQuoteTable[quoteIndx] is not None:
@@ -74,7 +84,7 @@ endTime2 = time.time()
 title_wasted = hashTitleTable.count(None)
 quote_wasted = hashQuoteTable.count(None)
 
-print("Method used: hashfunction1")
+print("Method used: hashfunction2")
 print("Rows inserted:", counter)
 print("Title Hash Table colissions:", titleColissions)
 print("Quote Hash Table colissions:", quoteColissions)
